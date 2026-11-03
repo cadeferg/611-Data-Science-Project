@@ -1,0 +1,7 @@
+homework/
+.Rproj.user/
+.Rhistory
+.RData
+data/derived/
+models/
+report.html
