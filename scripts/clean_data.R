@@ -51,3 +51,19 @@ raw_data$readmitted30 = as.integer(raw_data$readmitted=="<30")
 raw_data$race[is.na(raw_data$race)] = "Unknown"
 
 raw_data$gender[raw_data$gender=="Unknown/Invalid"] = "Unknown"
+
+#expired/hospice discharge codes from IDS_mapping.csv
+expired_hospice = c(11, 13, 14, 19, 20, 21)
+
+raw_data = raw_data %>% 
+  filter(!discharge_disposition_id %in% expired_hospice)
+
+raw_data = raw_data %>%
+  group_by(patient_nbr) %>%
+  slice_min(encounter_id, n = 1) %>%
+  ungroup()
+
+raw_data = raw_data %>% 
+  mutate(admission_type_id = as.factor(admission_type_id),
+         discharge_disposition_id = as.factor(discharge_disposition_id),
+         admission_source_id = as.factor(admission_source_id))
