@@ -91,8 +91,21 @@ raw_data <- raw_data %>%
          max_glu_serum = replace_na(max_glu_serum, "None"))
 
 raw_data <- raw_data %>% 
-  mutate(medical_specialty = replace_na(medical_specialty, "Unknown"),
-         medical_specialty = fct_lump_n(medical_specialty, n = 10, other_level = "Other"))
+  mutate(diag_1 = if_else(diag_1 == "Unknown", "Other", diag_1))
+
+meds <- raw_data %>% select(metformin:`metformin-pioglitazone`)
+
+raw_data$n_diabetes_meds <- rowSums(meds != "No")
+raw_data$n_dose_changes <- rowSums(meds == "Up" | meds == "Down")
+
+all_meds <- raw_data %>% select(metformin:`metformin-pioglitazone`) %>% names()
+
+for (med in all_meds) {
+  n_taking <- sum(raw_data[[med]] != "No")
+  if (n_taking < 700) {
+    raw_data[[med]] <- NULL
+  }
+}
 
 clean_data <- raw_data
 write_csv(clean_data, "data/derived/clean_data.csv")
