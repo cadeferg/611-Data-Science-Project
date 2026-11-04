@@ -34,6 +34,20 @@ ggsave("figures/anotherplot.png")
 ggplot(clean_data, aes(race,age)) + geom_violin(bw=7) + stat_summary(geom="crossbar")
 ggsave("figures/age_plot_by_race.png")
 
+age_rates <- clean_data %>% 
+  group_by(age) %>% 
+  summarize(readmit_rate = mean(readmitted30), n = n())
+
+age_rates
+
+ggplot(age_rates, aes(age, readmit_rate)) + 
+  geom_line() + 
+  geom_point() + 
+  scale_y_continuous(labels = scales::percent) + 
+  labs(x = "Age", y = "30-day readmission rate")
+ggsave("figures/readmit_by_age.png", width = 6, height = 4)
+
+
 inpatient_rates <- clean_data %>% 
   mutate(prior_inpatient = if_else(number_inpatient >= 5, "5+", as.character(number_inpatient))) %>% 
   group_by(prior_inpatient) %>% 
