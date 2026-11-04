@@ -45,7 +45,7 @@ ggplot(inpatient_rates, aes(prior_inpatient, readmit_rate,fill=readmit_rate)) +
   geom_col() + 
   geom_text(aes(label = paste0("n=", n)), vjust = -0.5, size = 3) + 
   scale_y_continuous(labels = scales::percent) + 
-  scale_fill_gradient(low="forestgreen", high="firebrick",  guide="none")
+  scale_fill_viridis_b(guide="none") +
   labs(x = "Inpatient visits in prior year", y = "30-day readmission rate")
 ggsave("figures/readmit_by_inpatient.png", width = 6, height = 4)
 
@@ -56,10 +56,9 @@ discharge_rates <- clean_data %>%
   arrange(readmit_rate) %>% 
   mutate(discharge_to = factor(discharge_to, levels = discharge_to))
 
-ggplot(discharge_rates, aes(readmit_rate, discharge_to, fill = readmit_rate)) + 
+ggplot(discharge_rates, aes(readmit_rate, discharge_to, fill = discharge_to)) + 
   geom_col() + 
   scale_x_continuous(labels = scales::percent) + 
-  scale_fill_gradient(low = "forestgreen", high = "firebrick",
-                      labels = scales::percent, name = "Readmission\nrate") + 
-  labs(x = "30-day readmission rate", y = NULL)
+  scale_fill_viridis_d(guide="none") + 
+  labs(x = "30-day readmission rate", y = NULL, fill = "Discharged to")
 ggsave("figures/readmit_by_discharge.png", width = 7, height = 4)
