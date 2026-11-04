@@ -39,10 +39,27 @@ inpatient_rates <- clean_data %>%
   group_by(prior_inpatient) %>% 
   summarize(readmit_rate = mean(readmitted30), n = n())
 
+inpatient_rates
+
 ggplot(inpatient_rates, aes(prior_inpatient, readmit_rate,fill=readmit_rate)) + 
   geom_col() + 
   geom_text(aes(label = paste0("n=", n)), vjust = -0.5, size = 3) + 
   scale_y_continuous(labels = scales::percent) + 
-  scale_fill_gradient(low="green", high="red", guide="none")
+  scale_fill_gradient(low="forestgreen", high="firebrick",  guide="none")
   labs(x = "Inpatient visits in prior year", y = "30-day readmission rate")
 ggsave("figures/readmit_by_inpatient.png", width = 6, height = 4)
+
+#readmission rate by discharge destination
+discharge_rates <- clean_data %>% 
+  group_by(discharge_to) %>% 
+  summarize(readmit_rate = mean(readmitted30), n = n()) %>% 
+  arrange(readmit_rate) %>% 
+  mutate(discharge_to = factor(discharge_to, levels = discharge_to))
+
+ggplot(discharge_rates, aes(readmit_rate, discharge_to, fill = readmit_rate)) + 
+  geom_col() + 
+  scale_x_continuous(labels = scales::percent) + 
+  scale_fill_gradient(low = "forestgreen", high = "firebrick",
+                      labels = scales::percent, name = "Readmission\nrate") + 
+  labs(x = "30-day readmission rate", y = NULL)
+ggsave("figures/readmit_by_discharge.png", width = 7, height = 4)
