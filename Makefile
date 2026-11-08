@@ -11,6 +11,9 @@ data/derived/train.csv data/derived/test.csv: scripts/split_data.R data/derived/
 models/rf.joblib: scripts/train_rf.py data/derived/train.csv
 	python3 scripts/train_rf.py
 
+data/derived/rf_predictions.csv: scripts/predict_rf.py models/rf.joblib data/derived/test.csv
+	python3 scripts/predict_rf.py
+
 clean:
 	rm -f data/derived/clean_data.csv
 	
