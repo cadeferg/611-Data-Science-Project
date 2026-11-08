@@ -102,7 +102,7 @@ all_meds <- raw_data %>% select(metformin:`metformin-pioglitazone`) %>% names()
 
 for (med in all_meds) {
   n_taking <- sum(raw_data[[med]] != "No")
-  if (n_taking < 700) {
+  if (n_taking < 100) {
     raw_data[[med]] <- NULL
   }
 }
