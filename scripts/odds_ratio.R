@@ -7,7 +7,9 @@ odds_ratios <- tidy(m) %>%
   filter(term != "(Intercept)") %>% 
   mutate(odds_ratio = exp(estimate),
          lower = exp(estimate-1.96*std.error),
-         upper = exp(estimate+1.96*std.error))
+         upper = exp(estimate+1.96*std.error)) %>%
+  arrange(odds_ratio) %>% 
+  mutate(term = factor(term, levels = term))
 
 odds_ratios %>% select(term, odds_ratio, lower, upper, p.value) %>% print(n = Inf)
 
