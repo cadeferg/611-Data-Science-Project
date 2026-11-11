@@ -21,4 +21,4 @@ figures/odds_ratios.png data/derived/odds_ratios.csv: scripts/odds_ratio.R model
 	Rscript scripts/odds_ratio.R
 
 clean:
-	rm data/derived/clean_data.csv data/derived/train.csv data/derived/test.csv models/rf.joblib data/derived/rf_importance.csv data/derived/rf_predictions.csv
+	rm -rf data/derived/* models/* figures/*
