@@ -39,9 +39,13 @@ ggsave("figures/race_plot.png", p_race_gender, width = 6, height = 4)
 #readmission rate by race
 race_rates <- clean_data %>% 
   group_by(race) %>% 
-  summarize(readmit_rate = mean(readmitted30), n = n())
+  summarize(readmit_rate = mean(readmitted30), n = n()) %>% 
+  arrange(desc(readmit_rate)) %>% 
+  mutate(race = factor(race, levels = race))
 
-p_race <- ggplot(race_rates, aes(factor(race, races_ordered), readmit_rate)) + 
+races_ordered <- race_rates %>% pull(race) %>% as.character()
+
+p_race <- ggplot(race_rates, aes(race, readmit_rate)) + 
   geom_col() + 
   scale_y_continuous(labels = scales::percent) + 
   labs(title = "Readmission by race", x = "Race", y = "30-day readmission rate")
