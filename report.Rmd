@@ -1,0 +1,51 @@
+---
+title: "Final Report"
+author: "Cade Ferguson"
+date: "2026-12-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Report
+
+## Introduction
+
+## Dataset
+This project explores the "Diabetes 130-US Hospitals for Years 1999-2008" dataset from UC Irvine’s Machine Learning Repository. The dataset includes clinical data obtained from the Health Facts database, a large clinical database which collects patient and encounter information from voluntarily participating institutions which utilize the Cerner Electronic Health Record System. The dataset I will be using consists only of inpatient diabetic encounters with a length of stay between one and fourteen days and during which lab tests were performed and medication was administered.
+
+## Method
+
+## Results
+
+## Conclusion
+
+
+ROC interesting findings:
+- They suck comparably.
+
+Odds ratio interesting findings:
+- Not a lot to do with diabetes itself contributes to readmissions, despite this being a diabetes dataset (except low insulin)
+- The only race that has a meaningfully different admission rate from the reference group "Caucasion" is "Other." This could be due to low representation.
+- The most informative features had to do with where the patient was discharged.
+- Total number of inpatient visits recorded was also informative, although that's maybe not so surprising.
+
+EDA interesting findings:
+- Discharge to a care facility was associated with the highest readmission rates.
+- Asian and Hispanic males showed significantly more readmissions than their female counterparts, with Asian males experiencing close to double the readmissions of Asian females.
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

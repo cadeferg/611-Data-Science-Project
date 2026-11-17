@@ -1,12 +1,52 @@
-ROC interesting findings:
-- They suck comparably.
+# Analysis of 30-Day Readmission for Patients with Diabetes
+Author: Cade Ferguson
+BIOS 611
+12/02/2026
 
-Odds ratio interesting findings:
-- Not a lot to do with diabetes itself contributes to readmissions, despite this being a diabetes dataset (except low insulin)
-- The only race that has a meaningfully different admission rate from the reference group "Caucasion" is "Other." This could be due to low representation.
-- The most informative features had to do with where the patient was discharged.
-- Total number of inpatient visits recorded was also informative, although that's maybe not so surprising.
+## Overview
+This project explores the "Diabetes 130-US Hospitals for Years 1999-2008" dataset from UC Irvine’s Machine Learning Repository, which includes clinical data collected from inpatient diabetic encounters with a length of stay between one and fourteen days.
 
-EDA interesting findings:
-- Discharge to a care facility was associated with the highest readmission rates.
-- Asian and Hispanic males showed significantly more readmissions than their female counterparts, with Asian males experiencing close to double the readmissions of Asian females.
+## Using this repository
+
+Everything in this project runs inside a Docker container, a self-contained Linux environment with R, RStudio, Python, and every package the analysis needs already installed.
+
+Note that this guide is designed for Mac users and has only been tested on a Macbook Pro M5. Steps for starting the container may require slight modification on Windows devices.
+
+### What you need
+
+- Docker
+  - Install Docker Desktop and make sure it's running before you start.
+- Git, to download the repository.
+- A few GB of free disk space and memory.
+
+### Steps
+
+**1. Download the repository**
+
+```bash
+git clone https://github.com/cadeferg/611-Data-Science-Project.git
+cd 611-Data-Science-Project
+```
+
+The dataset is included in the repository under data/raw/.
+
+**2. Start the container using the provided start script**
+```bash
+sh start.sh
+```
+
+This script builds the Docker image from the Dockerfile. It may take several minutes to download all necessary packages to run the code. Then, the script starts a container running RStudio and shares the project folder with it. All project files and code are located in the **~/work** folder.
+
+**3. Navigate to RStudio**
+
+Go to http://localhost:8787 in your web browser and log in with:
+
+- Username: rstudio
+- Password: changeme
+
+To use your own password, start the container instead with:
+
+```bash
+RSTUDIO_PASSWORD=yourpassword sh start.sh
+```
+
