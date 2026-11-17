@@ -1,6 +1,9 @@
 # Analysis of 30-Day Readmission for Patients with Diabetes
+
 Author: Cade Ferguson
+
 BIOS 611
+
 12/02/2026
 
 ## Overview
