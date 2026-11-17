@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-all: data/derived/clean_data.csv
+all: report.html
 
 data/derived/clean_data.csv: scripts/clean_data.R data/raw/diabetic_data.csv
 	Rscript scripts/clean_data.R
@@ -8,7 +8,7 @@ data/derived/clean_data.csv: scripts/clean_data.R data/raw/diabetic_data.csv
 data/derived/train.csv data/derived/test.csv: scripts/split_data.R data/derived/clean_data.csv
 	Rscript scripts/split_data.R
 	
-figures/age_plot.png figures/race_plot.png figures/anotherplot.png figures/age_plot_by_race.png \
+figures/age_plot.png figures/race_plot.png figures/readmit_by_race.png \
   figures/readmit_by_age.png figures/readmit_by_inpatient.png figures/readmit_by_discharge.png \
   figures/eda_grid.png: scripts/exploratory_data_analysis.R data/derived/clean_data.csv
 	Rscript scripts/exploratory_data_analysis.R
@@ -28,6 +28,10 @@ figures/odds_ratios.png data/derived/odds_ratios.csv: scripts/odds_ratio.R model
 data/derived/model_metrics.csv figures/roc_curves.png: scripts/evaluate_models.R \
   models/logistic.rds data/derived/rf_predictions.csv data/derived/test.csv
 	Rscript scripts/evaluate_models.R
+	
+report.html: report.Rmd figures/eda_grid.png figures/odds_ratios.png figures/roc_curves.png \
+  data/derived/model_metrics.csv data/derived/odds_ratios.csv
+	Rscript -e 'rmarkdown::render("report.Rmd")'
 
 clean:
-	rm -rf data/derived/* models/* figures/*
+	rm -rf data/derived/* models/* figures/* report.html
