@@ -1,3 +1,6 @@
+ROC interesting findings:
+- They suck comparably.
+
 Odds ratio interesting findings:
 - Not a lot to do with diabetes itself contributes to readmissions, despite this being a diabetes dataset (except low insulin)
 - The only race that has a meaningfully different admission rate from the reference group "Caucasion" is "Other." This could be due to low representation.
