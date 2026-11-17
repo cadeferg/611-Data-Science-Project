@@ -24,6 +24,10 @@ models/logistic.rds: scripts/train_logistic.R data/derived/train.csv
 
 figures/odds_ratios.png data/derived/odds_ratios.csv: scripts/odds_ratio.R models/logistic.rds
 	Rscript scripts/odds_ratio.R
+	
+data/derived/model_metrics.csv figures/roc_curves.png: scripts/evaluate_models.R \
+  models/logistic.rds data/derived/rf_predictions.csv data/derived/test.csv
+	Rscript scripts/evaluate_models.R
 
 clean:
 	rm -rf data/derived/* models/* figures/*
