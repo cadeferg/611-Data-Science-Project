@@ -4,4 +4,6 @@ homework/
 .RData
 data/derived/
 models/
+figures/
 report.html
+Rplots.pdf
