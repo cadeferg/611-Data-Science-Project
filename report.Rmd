@@ -21,7 +21,7 @@ First, I created some descriptive figures in my exploratory data analysis phase.
 knitr::include_graphics("figures/eda_grid.png")
 ```
 
-My preliminary figures yielded several interesting findings. First, the results show that discharge toa care facility was associated with the highest readmission rates, followed by discharge to another hospital. Additionlly, EDA interesting findings Asian and Hispanic males showed significantly more readmissions than their female counterparts, with Asian males experiencing close to double the readmissions of Asian females. This discrepancy does not appear in any other recorded race group.
+My preliminary figures yielded several interesting findings. First, the results show that discharge to a care facility was associated with the highest readmission rates, followed by discharge to another hospital. Additionlly, EDA interesting findings Asian and Hispanic males showed significantly more readmissions than their female counterparts, with Asian males experiencing close to double the readmissions of Asian females. This discrepancy does not appear in any other recorded race group.
 
 #### Machine learning methods
 I also wanted to apply some machine learning methods to this dataset to take advantage of the pre-labeled dataset. Initially, the readmission column took on three values: readmission within 30 days, readmission after 30 days, and no readmission. I created a binarized version of this label to look only at readmissions within 30 days, combining the no readmission and readmission after 30 days cases.
