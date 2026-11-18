@@ -3,9 +3,70 @@ library(dplyr)
 library(tidyverse)
 library(gridExtra)
 
+# add: adaboost, improve random forest, look at proportions by race (other group), balance of men and women
+# weird that age by gender looks the same, men should have higher readmissions as age increases
+# look at variable importance vcsv and maybe show it
+
 dir.create("figures", showWarnings = FALSE)
 
 clean_data <- read_csv("data/derived/clean_data.csv")
+
+#number of patients by race
+race_counts <- clean_data %>% 
+  group_by(race) %>% 
+  summarize(n = n()) %>% 
+  mutate(share = n / sum(n)) %>% 
+  arrange(desc(n)) %>% 
+  mutate(race = factor(race, levels = race))
+
+p_race_count <- ggplot(race_counts, aes(race, n, fill = race)) + 
+  geom_col() + 
+  geom_text(aes(label = scales::percent(share, accuracy = 0.1)), vjust = -0.5, size = 3) + 
+  scale_fill_viridis_d(guide = "none") + 
+  labs(title = "Patients by race", x = "Race", y = "Number of patients")
+ggsave("figures/patients_by_race.png", p_race_count, width = 6, height = 4)
+
+#number of patients by gender
+gender_counts <- clean_data %>% 
+  group_by(gender) %>% 
+  summarize(n = n()) %>% 
+  mutate(share = n / sum(n))
+
+p_gender_count <- ggplot(gender_counts, aes(gender, n, fill = gender)) + 
+  geom_col() + 
+  geom_text(aes(label = scales::percent(share, accuracy = 0.1)), vjust = -0.5, size = 3) + 
+  guides(fill = "none") + 
+  labs(title = "Patients by gender", x = "Gender", y = "Number of patients")
+ggsave("figures/patients_by_gender.png", p_gender_count, width = 6, height = 4)
+
+#gender balance within each race
+race_gender_counts <- clean_data %>% 
+  group_by(race, gender) %>% 
+  summarize(n = n(), .groups = "drop") %>% 
+  mutate(race = factor(race, levels = levels(race_counts$race)))
+
+p_race_gender_share <- ggplot(race_gender_counts, aes(race, n, fill = gender)) + 
+  geom_col(position = "fill") + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "grey30") + 
+  scale_y_continuous(labels = scales::percent) + 
+  labs(title = "Gender balance within each race", x = "Race", y = "Share of patients", fill = "Gender")
+ggsave("figures/gender_balance_by_race.png", p_race_gender_share, width = 6, height = 4)
+
+#age distribution by gender
+age_gender_counts <- clean_data %>% 
+  group_by(age, gender) %>% 
+  summarize(n = n(), .groups = "drop")
+
+p_age_gender_count <- ggplot(age_gender_counts, aes(age, n, fill = gender)) + 
+  geom_col(position = "dodge") + 
+  labs(title = "Patients by age and gender", x = "Age", y = "Number of patients", fill = "Gender")
+ggsave("figures/patients_by_age_gender.png", p_age_gender_count, width = 6, height = 4)
+
+#distribution figures on one grid
+distribution_grid <- arrangeGrob(p_race_count, p_gender_count,
+                                 p_race_gender_share, p_age_gender_count,
+                                 ncol = 2)
+ggsave("figures/distribution_grid.png", distribution_grid, width = 12, height = 8)
 
 #readmission rate by age and gender
 age_gender_rates <- clean_data %>% 
