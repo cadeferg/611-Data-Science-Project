@@ -12,7 +12,7 @@ y = train["readmitted30"]
 
 param_grid = {"min_samples_leaf": [5, 20, 50], "max_features": ["sqrt", 0.2]}
 
-search = GridSearchCV(RandomForestClassifier(n_estimators=300, random_state=123), param_grid, cv=3, scoring="roc_auc", n_jobs=-1)
+search = GridSearchCV(RandomForestClassifier(n_estimators=300, random_state=123), param_grid, cv=5, scoring="roc_auc", n_jobs=-1)
 search.fit(X, y)
 
 print(pd.DataFrame(search.cv_results_)[["params", "mean_test_score"]])
