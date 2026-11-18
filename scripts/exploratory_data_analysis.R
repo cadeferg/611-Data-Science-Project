@@ -3,10 +3,6 @@ library(dplyr)
 library(tidyverse)
 library(gridExtra)
 
-# add: adaboost, improve random forest, look at proportions by race (other group), balance of men and women
-# weird that age by gender looks the same, men should have higher readmissions as age increases
-# look at variable importance vcsv and maybe show it
-
 dir.create("figures", showWarnings = FALSE)
 
 clean_data <- read_csv("data/derived/clean_data.csv")

@@ -18,7 +18,7 @@ figures/age_plot.png figures/race_plot.png figures/readmit_by_race.png \
 models/rf.joblib: scripts/train_rf.py data/derived/train.csv
 	python3 scripts/train_rf.py
 
-data/derived/rf_predictions.csv: scripts/predict_rf.py models/rf.joblib data/derived/test.csv
+data/derived/rf_predictions.csv data/derived/rf_importance.csv: scripts/predict_rf.py models/rf.joblib data/derived/test.csv
 	python3 scripts/predict_rf.py
 	
 models/logistic.rds: scripts/train_logistic.R data/derived/train.csv
@@ -27,11 +27,11 @@ models/logistic.rds: scripts/train_logistic.R data/derived/train.csv
 figures/odds_ratios.png data/derived/odds_ratios.csv: scripts/odds_ratio.R models/logistic.rds
 	Rscript scripts/odds_ratio.R
 	
-data/derived/model_metrics.csv figures/roc_curves.png: scripts/evaluate_models.R \
-  models/logistic.rds data/derived/rf_predictions.csv data/derived/test.csv
+data/derived/model_metrics.csv figures/roc_curves.png figures/rf_importance.png: scripts/evaluate_models.R \
+  models/logistic.rds data/derived/rf_predictions.csv data/derived/rf_importance.csv data/derived/test.csv
 	Rscript scripts/evaluate_models.R
 	
-report.html: report.Rmd figures/eda_grid.png figures/distribution_grid.png figures/odds_ratios.png figures/roc_curves.png \
+report.html: report.Rmd figures/eda_grid.png figures/distribution_grid.png figures/odds_ratios.png figures/rf_importance.png figures/roc_curves.png \
   data/derived/model_metrics.csv data/derived/odds_ratios.csv
 	Rscript -e 'rmarkdown::render("report.Rmd")'
 

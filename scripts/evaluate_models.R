@@ -81,3 +81,12 @@ ggplot(roc, aes(`False Positive Rate`, `True Positive Rate`)) +
 ggsave("figures/roc_curves.png", width = 6, height = 4)
 
 write_csv(metrics, "data/derived/model_metrics.csv")
+
+rf_importance <- read_csv("data/derived/rf_importance.csv") %>% 
+  slice_max(importance, n = 15)
+
+p_importance <- ggplot(rf_importance, aes(importance, reorder(variable, importance), fill = importance)) + 
+  geom_col() + 
+  scale_fill_gradient(low = "#C6DBEF", high = "#08306B", guide = "none") + 
+  labs(x = "Drop in AUC when shuffled", y = NULL)
+ggsave("figures/rf_importance.png", width = 6, height = 4)

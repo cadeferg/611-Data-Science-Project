@@ -20,10 +20,5 @@ print("Best settings:", search.best_params_)
 
 rf = search.best_estimator_
 
-# most important variables
-importance = pd.DataFrame({"variable": X.columns, "importance": rf.feature_importances_})
-print(importance.sort_values("importance", ascending=False).head(15))
-importance.to_csv("data/derived/rf_importance.csv", index=False)
-
 os.makedirs("models", exist_ok=True)
 joblib.dump(rf, "models/rf.joblib", compress=3)
